@@ -1,6 +1,7 @@
 package stack;
 
 /**
+ * 栈，数组实现
  * @author 14512 on 2018/9/9.
  */
 public class LinearStack<E> {
@@ -32,10 +33,18 @@ public class LinearStack<E> {
         elements = new Object[mSize];
     }
 
+    /**
+     * 返回元素个数
+     * @return
+     */
     public int length() {
         return mLength;
     }
 
+    /**
+     * 返回stack的大小
+     * @return
+     */
     public int size() {
         return mSize;
     }
@@ -49,7 +58,12 @@ public class LinearStack<E> {
         return true;
     }
 
+    /**
+     * 空间不足时扩展
+     * @param size
+     */
     private void addStackSize(int size) {
+        //扩展空间的具体大小此处示例
         int newSize = mSize + size;
         Object[] newElements = new Object[newSize];
         System.arraycopy(elements, 0, newElements, 0, mLength);

@@ -1,17 +1,20 @@
 package list;
 
 /**
+ * 线性表，数组实现
  * @author 14512 on 2018/9/8.
  */
 public class LinearList<E> {
 
     private Object[] elements;
+
     /**
      * 空间长度
      */
     private int mSize = 10;
+
     /**
-     * 数据个数
+     * 元素个数
      */
     private int mLength = 0;
 
@@ -179,6 +182,9 @@ public class LinearList<E> {
         return deleteIndex(locate(elem));
     }
 
+    /**
+     * 翻转
+     */
     public void reverse() {
         int i = 0, j = mLength - 1;
         while (i != j + 1) {

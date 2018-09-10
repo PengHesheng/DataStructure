@@ -248,6 +248,9 @@ public class LinkList<E> {
         return true;
     }
 
+    /**
+     * 翻转
+     */
     public void reverse() {
         reverseSingleTrack();
     }

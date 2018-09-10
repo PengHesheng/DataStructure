@@ -1,6 +1,7 @@
 package queue;
 
 /**
+ * 通过数组实现线性队列
  * @author 14512 on 2018/9/10.
  */
 public class LinearQueue<E> {
