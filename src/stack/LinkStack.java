@@ -13,6 +13,10 @@ public class LinkStack<E> {
         mLength = 0;
     }
 
+    public boolean empty() {
+        return mLength == 0;
+    }
+
     public int length() {
         return mLength;
     }
