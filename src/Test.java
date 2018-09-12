@@ -16,11 +16,11 @@ public class Test {
         tree.addLeft("G", "H");
         tree.addLeft("H", "J");
         tree.addRight("G", "I");
-        tree.addRight("I", "M");
-        System.out.println(tree.getDepth());
 //        System.out.println(tree.find("A"));
 //        System.out.println(tree.find("D"));
 //        System.out.println(tree.find("K"));
         tree.traverse();
+        System.out.println("\nthreading");
+        tree.inOrderTraverse();
     }
 }

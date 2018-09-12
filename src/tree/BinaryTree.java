@@ -5,6 +5,7 @@ import stack.LinkStack;
 import java.util.Objects;
 
 /**
+ * 链表二叉树
  * @author 14512 on 2018/9/10.
  */
 public class BinaryTree<E> {
@@ -14,6 +15,10 @@ public class BinaryTree<E> {
 
     public BinaryTree(E root) {
         mRoot = new Node<>(root, null, null);
+    }
+
+    public E getRoot() {
+        return mRoot != null ? mRoot.elem : null;
     }
 
     /**
@@ -61,6 +66,64 @@ public class BinaryTree<E> {
      */
     public boolean find(E elem) {
         return inOrderTraverseNo2(mRoot, elem) != null;
+    }
+
+    private Node<E> pre = null;
+
+    private Node<E> inOrderThreading() {
+        Node<E> rootThrBin = new Node<>(null, null, null);
+        Node<E> rootBinary = mRoot;
+        rootThrBin.lTag = Tag.LINK;
+        rootThrBin.rTag = Tag.THREAD;
+        //右指针回指
+        rootThrBin.rightChild = rootThrBin;
+        //若二叉树为空，则左指针回指
+        if (rootBinary == null) {
+            rootThrBin.leftChild = rootThrBin;
+        } else {
+            rootThrBin.leftChild = rootBinary;
+            pre = rootThrBin;
+            //中序遍历进行中序线索化
+            inThread(rootBinary);
+            pre.rightChild = rootThrBin;
+            pre.rTag = Tag.THREAD;
+            rootThrBin.rightChild = pre;
+        }
+        return rootThrBin;
+    }
+
+    private void inThread(Node<E> parent) {
+        if (parent != null) {
+            //左子树线索化
+
+            inThread(parent.leftChild);
+            if (parent.leftChild == null) {
+                parent.lTag = Tag.THREAD;
+                parent.leftChild = pre;
+            }
+            if (pre.rightChild == null) {
+                pre.rTag = Tag.THREAD;
+                pre.rightChild = parent;
+            }
+            pre = parent;
+            inThread(parent.rightChild);
+        }
+    }
+
+    public void inOrderTraverse() {
+        Node<E> root = inOrderThreading();
+        Node<E> p = root.leftChild;
+        while (p != root) {
+            while (p.lTag == Tag.LINK) {
+                p = p.leftChild;
+            }
+            System.out.print(p.elem + "  ");
+            while (p.rTag == Tag.THREAD && p.rightChild != root) {
+                p = p.rightChild;
+                System.out.print(p.elem + "  ");
+            }
+            p = p.rightChild;
+        }
     }
 
     /**
@@ -290,10 +353,23 @@ public class BinaryTree<E> {
         E elem;
         Node<E> leftChild;
         Node<E> rightChild;
+        Tag lTag = Tag.LINK;
+        Tag rTag = Tag.LINK;
         Node(E elem, Node<E> leftChild, Node<E> rightChild) {
             this.elem = elem;
             this.leftChild = leftChild;
             this.rightChild = rightChild;
         }
+    }
+
+    private enum Tag {
+        /**
+         * 表示结点，指向孩子结点
+         */
+        LINK,
+        /**
+         * 表示线索，指向前驱
+         */
+        THREAD
     }
 }
