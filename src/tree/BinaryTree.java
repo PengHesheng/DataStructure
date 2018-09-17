@@ -70,6 +70,10 @@ public class BinaryTree<E> {
 
     private Node<E> pre = null;
 
+    /**
+     * 二叉树线索化
+     * @return 线索二叉树的头结点
+     */
     private Node<E> inOrderThreading() {
         Node<E> rootThrBin = new Node<>(null, null, null);
         Node<E> rootBinary = mRoot;
@@ -95,7 +99,6 @@ public class BinaryTree<E> {
     private void inThread(Node<E> parent) {
         if (parent != null) {
             //左子树线索化
-
             inThread(parent.leftChild);
             if (parent.leftChild == null) {
                 parent.lTag = Tag.THREAD;
@@ -110,6 +113,9 @@ public class BinaryTree<E> {
         }
     }
 
+    /**
+     * 线索二叉树的遍历
+     */
     public void inOrderTraverse() {
         Node<E> root = inOrderThreading();
         Node<E> p = root.leftChild;
@@ -117,6 +123,7 @@ public class BinaryTree<E> {
             while (p.lTag == Tag.LINK) {
                 p = p.leftChild;
             }
+            //打印叶子结点
             System.out.print(p.elem + "  ");
             while (p.rTag == Tag.THREAD && p.rightChild != root) {
                 p = p.rightChild;
@@ -220,7 +227,7 @@ public class BinaryTree<E> {
                 if (parent.elem == elem) {
                     return parent;
                 }
-//                System.out.print(parent.elem + "  ");
+//                System.out.print(parent.cIndex + "  ");
                 parent = parent.rightChild;
             }
         }
