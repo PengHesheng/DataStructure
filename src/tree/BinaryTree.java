@@ -139,18 +139,18 @@ public class BinaryTree<E> {
     public void traverse() {
         System.out.println("pre");
         preOrderTraverse(mRoot);
-        System.out.println("\nin");
-        inOrderTraverse(mRoot);
-        System.out.println("\npost");
-        postOrderTraverse(mRoot);
-        System.out.println("\npreNo");
-        preOrderTraverseNo1(mRoot);
-        System.out.println("\ninNo1");
-        inOrderTraverseNo1(mRoot);
+//        System.out.println("\nin");
+//        inOrderTraverse(mRoot);
+//        System.out.println("\npost");
+//        postOrderTraverse(mRoot);
+//        System.out.println("\npreNo");
+//        preOrderTraverseNo1(mRoot);
+//        System.out.println("\ninNo1");
+//        inOrderTraverseNo1(mRoot);
 //        System.out.println("\ninNo2");
 //        inOrderTraverseNo2(mRoot);
-        System.out.println("\npostNo");
-        postOrderTraverseNo1(mRoot);
+//        System.out.println("\npostNo");
+//        postOrderTraverseNo1(mRoot);
     }
 
     /**
@@ -188,7 +188,7 @@ public class BinaryTree<E> {
      * 先序遍历，非递归实现
      * @param root
      */
-    private void preOrderTraverseNo1(Node<E> root) {
+    public void preOrderTraverseNo1(Node<E> root) {
         if (root == null) {
             return;
         }

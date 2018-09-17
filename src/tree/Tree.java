@@ -37,6 +37,11 @@ public class Tree<E> {
         mLength = 0;
     }
 
+    /**
+     * 添加根结点
+     * @param root
+     * @return
+     */
     public boolean addRoot(E root) {
         if (isRootExit()) {
             return false;
@@ -46,11 +51,11 @@ public class Tree<E> {
     }
 
     private boolean isRootExit() {
-        return parents[0] != null;
+        return parents[0] == null;
     }
 
     /**
-     * 根结点已经存在
+     * 根结点已经存在，添加结点
      * @param elements
      * @return
      */
@@ -95,14 +100,71 @@ public class Tree<E> {
         return true;
     }
 
+    /**
+     * 将树转换为二叉树
+     * @return
+     */
+    public BinaryTree<E> convertToBinaryTree() {
+        if (isRootExit()) {
+            return null;
+        }
+        E root = (E) parents[0].elem;
+        BinaryTree<E> binaryTree = new BinaryTree<>(root);
+        traverseAdd(binaryTree, parents[0]);
+        return binaryTree;
+    }
+
+    /**
+     * 根据树的递归遍历，将树转换为二叉树
+     * @param binaryTree 二叉树
+     * @param parent 父结点
+     */
+    private void traverseAdd(BinaryTree<E> binaryTree, ParentNode parent) {
+        boolean isFirstChild = true;
+        ChildNode firstChild = parent.firstChild;
+        ParentNode oldChild = null;
+        while (firstChild != null) {
+            ParentNode child = parents[firstChild.cIndex];
+            if (isFirstChild) {
+                binaryTree.addLeft((E) parent.elem, (E) child.elem);
+                isFirstChild = false;
+            } else {
+                binaryTree.addRight((E) oldChild.elem, (E) child.elem);
+            }
+            oldChild = child;
+            traverseAdd(binaryTree, child);
+            firstChild = firstChild.next;
+        }
+    }
+
+    public void traverse() {
+        traverse(parents[0]);
+    }
+
+    /**
+     * 使用递归遍历，先遍历父结点，接着遍历孩子结点
+     * @param parent
+     */
+    private void traverse(ParentNode parent) {
+        System.out.print(parent.elem + "  ");
+        ChildNode firstChild = parent.firstChild;
+        while (firstChild != null) {
+            traverse(parents[firstChild.cIndex]);
+            firstChild = firstChild.next;
+        }
+    }
+
     private void addChildNode(int pIndex, int cIndex) {
         ChildNode first = parents[pIndex].firstChild;
         if (first == null) {
             first = new ChildNode(cIndex, null);
+            parents[pIndex].firstChild = first;
         } else {
-            first = new ChildNode(cIndex, first);
+            while (first.next != null) {
+                first = first.next;
+            }
+            first.next = new ChildNode(cIndex, null);
         }
-        parents[pIndex].firstChild = first;
     }
 
     private int find(E elem) {
