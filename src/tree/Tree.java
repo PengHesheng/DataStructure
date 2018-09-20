@@ -63,10 +63,21 @@ public class Tree<E> {
         if (isRootExit()) {
             return false;
         }
+        if (mSize < elements.length) {
+            addNewSize(elements.length);
+        }
         for (E element : elements) {
             parents[mLength++] = new ParentNode<>(-1, element, null);
         }
         return true;
+    }
+
+    private void addNewSize(int size) {
+        int newSize = mSize + size;
+        ParentNode[] newParents = new ParentNode[newSize];
+        System.arraycopy(parents, 0, newParents, 0, mLength);
+        parents = newParents;
+        mSize = newSize;
     }
 
     public boolean addNewNode(E elem) {
@@ -137,19 +148,34 @@ public class Tree<E> {
         }
     }
 
-    public void traverse() {
-        traverse(parents[0]);
+    public void preTraverse() {
+        preTraverse(parents[0]);
+        System.out.println();
+        postTraverse(parents[0]);
     }
 
     /**
-     * 使用递归遍历，先遍历父结点，接着遍历孩子结点
+     * 后根序遍历
      * @param parent
      */
-    private void traverse(ParentNode parent) {
+    private void postTraverse(ParentNode parent) {
+        ChildNode firstChild = parent.firstChild;
+        while (firstChild != null) {
+            postTraverse(parents[firstChild.cIndex]);
+            firstChild = firstChild.next;
+        }
+        System.out.print(parent.elem + "  ");
+    }
+
+    /**
+     * 使用递归遍历，先序遍历父结点，接着遍历孩子结点
+     * @param parent
+     */
+    private void preTraverse(ParentNode parent) {
         System.out.print(parent.elem + "  ");
         ChildNode firstChild = parent.firstChild;
         while (firstChild != null) {
-            traverse(parents[firstChild.cIndex]);
+            preTraverse(parents[firstChild.cIndex]);
             firstChild = firstChild.next;
         }
     }
